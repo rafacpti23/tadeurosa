@@ -50,12 +50,16 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
 }
 
 export async function login(email: string, password: string) {
+  const formData = new URLSearchParams();
+  formData.append('email', email);
+  formData.append('password', password);
+
   const response = await fetch(`${TRACCAR_API_URL}/session`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: JSON.stringify({ email, password }), // Envia como JSON body para compatibilidade
+    body: formData,
   });
   
   if (!response.ok) {
