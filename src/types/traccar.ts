@@ -18,11 +18,17 @@ export interface Device {
 export interface Position {
   id: number;
   deviceId: number;
+  protocol: string;
+  serverTime: string;
+  deviceTime: string;
+  fixTime: string;
   latitude: number;
   longitude: number;
+  altitude: number;
   speed: number;
-  serverTime: string;
-  attributes: Record<string, any>;
+  course: number;
+  address?: string;
+  attributes: Record<string, any>; // ex.: { battery: 80, odometer: 1000 }
 }
 
 export interface User {

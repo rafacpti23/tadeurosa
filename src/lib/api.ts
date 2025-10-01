@@ -1,4 +1,4 @@
-import { Device, User } from '@/types/traccar';
+import { Device, User, Position } from '@/types/traccar';
 
 const TRACCAR_API_URL = process.env.NEXT_PUBLIC_TRACCAR_API_URL || 'http://localhost:8082/api';
 
@@ -74,4 +74,9 @@ export async function getDevices(): Promise<Device[]> {
 
 export async function getUsers(): Promise<User[]> {
   return apiFetch('/users') as Promise<User[]>;
+}
+
+export async function getLatestPosition(deviceId: number): Promise<Position | null> {
+  const positions = await apiFetch(`/positions?deviceId=${deviceId}&limit=1`) as Position[];
+  return positions.length > 0 ? positions[0] : null;
 }
