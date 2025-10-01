@@ -53,9 +53,9 @@ export async function login(email: string, password: string) {
   const response = await fetch(`${TRACCAR_API_URL}/session`, {
     method: 'POST',
     headers: {
-      Authorization: createBasicAuth(email, password), // Basic Auth com email:password, SEM body JSON
+      'Content-Type': 'application/json',
     },
-    // SEM body e SEM Content-Type: application/json (isso causava o 415)
+    body: JSON.stringify({ email, password }), // Envia como JSON body para compatibilidade
   });
   
   if (!response.ok) {
