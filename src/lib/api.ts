@@ -1,32 +1,12 @@
-import { Device } from '@/types/traccar';
+import { Device, User } from '@/types/traccar';
 
 const TRACCAR_API_URL = process.env.NEXT_PUBLIC_TRACCAR_API_URL || 'http://localhost:8082/api';
 
-function createBasicAuth(emailOrToken: string, passwordOrEmpty: string = '') {
-  return `Basic ${btoa(`${emailOrToken}:${passwordOrEmpty}`)}`;
-}
-
 export async function apiFetch(endpoint: string, options: RequestInit = {}) {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('traccarToken') : null;
-  
-  // Type headers as Record for safe indexing and spreading
-  const headers: Record<string, string> = {
-    ... (options.headers as Record<string, string> || {}),
-    ...(token && { Authorization: createBasicAuth(token) }), // Basic Auth com token: (senha vazia)
-  };
-
   const config: RequestInit = {
     ...options,
-    headers,
+    credentials: 'include', // Envia cookies de sessão cross-origin (essencial para auth pós-login)
   };
-
-  // Só adiciona Content-Type se houver body (evita 415 em GETs)
-  if (config.body && !headers['Content-Type']) {
-    config.headers = {
-      ...headers,
-      'Content-Type': 'application/json',
-    };
-  }
 
   const response = await fetch(`${TRACCAR_API_URL}${endpoint}`, config);
   
@@ -60,6 +40,7 @@ export async function login(email: string, password: string) {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: formData,
+    credentials: 'include', // Recebe e define cookies de sessão no login
   });
   
   if (!response.ok) {
@@ -79,19 +60,18 @@ export async function login(email: string, password: string) {
   }
   
   const data = await response.json();
-  if (typeof window !== 'undefined' && data.token) {
-    localStorage.setItem('traccarToken', data.token);
-  }
+  // Não salvamos token mais — usamos cookie de sessão
   return data;
 }
 
 export async function logout() {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem('traccarToken');
-  }
   await apiFetch('/session', { method: 'DELETE' });
 }
 
 export async function getDevices(): Promise<Device[]> {
   return apiFetch('/devices') as Promise<Device[]>;
+}
+
+export async function getUsers(): Promise<User[]> {
+  return apiFetch('/users') as Promise<User[]>;
 }

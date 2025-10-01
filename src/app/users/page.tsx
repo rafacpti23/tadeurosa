@@ -1,13 +1,12 @@
 'use client';
 
-import Link from 'next/link';
-import { DeviceList } from '@/components/DeviceList';
+import { UserList } from '@/components/UserList';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-export default function Home() {
-  const { user: authUser, loading } = useAuth();
+export default function UsersPage() {
+  const { user: authUser, loading } = useAuth(); // 'user' aqui é o estado de auth, não o User do Traccar
   const router = useRouter();
 
   useEffect(() => {
@@ -21,15 +20,11 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       <header className="bg-blue-600 text-white p-4 text-center">
-        <h1 className="text-2xl font-bold">Tadeu Raster</h1>
-        <p className="text-sm">Seus veículos em tempo real</p>
-        <nav className="mt-2 space-x-4">
-          <Link href="/" className="text-sm hover:underline">Dashboard</Link>
-          <Link href="/users" className="text-sm hover:underline">Usuários</Link>
-        </nav>
+        <h1 className="text-2xl font-bold">Usuários do Sistema</h1>
+        <p className="text-sm">Gerencie usuários (Admin apenas)</p>
       </header>
       <main className="py-8">
-        <DeviceList />
+        <UserList />
       </main>
     </div>
   );

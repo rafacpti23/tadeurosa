@@ -24,3 +24,31 @@ export interface Position {
   serverTime: string;
   attributes: Record<string, any>;
 }
+
+export interface User {
+  id: number;
+  attributes: Record<string, any>;
+  name: string;
+  cpf?: string;
+  telegram?: string | null;
+  login?: string;
+  email: string;
+  phone?: string;
+  readonly: boolean;
+  administrator: boolean;
+  map?: string;
+  latitude: number;
+  longitude: number;
+  zoom: number;
+  twelveHourFormat: boolean;
+  coordinateFormat?: string;
+  disabled: boolean;
+  expirationTime: string | null;
+  deviceLimit: number;
+  userLimit: number;
+  deviceReadonly: boolean;
+  token: string | null;
+  limitCommands: boolean;
+  poiLayer?: string;
+  password: string | null;
+}
