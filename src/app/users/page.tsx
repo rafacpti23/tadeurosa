@@ -1,12 +1,13 @@
 'use client';
 
 import { UserList } from '@/components/UserList';
+import { SidebarNav } from '@/components/SidebarNav';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function UsersPage() {
-  const { user: authUser, loading } = useAuth(); // 'user' aqui é o estado de auth, não o User do Traccar
+  const { user: authUser, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -18,12 +19,9 @@ export default function UsersPage() {
   if (loading) return <div className="flex items-center justify-center min-h-screen">Carregando...</div>;
 
   return (
-    <div className="min-h-screen bg-white">
-      <header className="bg-blue-600 text-white p-4 text-center">
-        <h1 className="text-2xl font-bold">Usuários do Sistema</h1>
-        <p className="text-sm">Gerencie usuários (Admin apenas)</p>
-      </header>
-      <main className="py-8">
+    <div className="flex min-h-screen bg-white">
+      <SidebarNav />
+      <main className="flex-1 p-8">
         <UserList />
       </main>
     </div>
