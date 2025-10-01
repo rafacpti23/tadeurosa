@@ -6,7 +6,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { getDevices, getLatestPosition } from '@/lib/api';
 import { Device, Position } from '@/types/traccar';
-import { Car, MapPin, Clock, Speedometer } from 'lucide-react';
+import { Car, MapPin, Clock, Gauge } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/components/ui/use-toast';
@@ -73,8 +73,8 @@ export function MapView() {
     return () => clearInterval(interval);
   }, []);
 
-  // Default center: São Paulo, Brasil
-  const position = [-23.5505, -46.6333];
+  // Default center: São Paulo, Brasil (tipado explicitamente como LatLngTuple)
+  const position: [number, number] = [-23.5505, -46.6333];
 
   if (loading) {
     return (
@@ -114,7 +114,7 @@ export function MapView() {
                   <div className="min-w-[200px]">
                     <h3 className="font-bold text-blue-600">{device.name}</h3>
                     <p><Car className="inline h-4 w-4 mr-1" /> Status: <span className={device.status === 'online' ? 'text-green-600' : 'text-gray-600'}>{device.status}</span></p>
-                    <p><Speedometer className="inline h-4 w-4 mr-1" /> Velocidade: {speed}</p>
+                    <p><Gauge className="inline h-4 w-4 mr-1" /> Velocidade: {speed}</p>
                     <p><Clock className="inline h-4 w-4 mr-1" /> Última: {lastUpdate}</p>
                     {device.position.address && <p><MapPin className="inline h-4 w-4 mr-1" /> Endereço: {device.position.address}</p>}
                   </div>
