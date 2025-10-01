@@ -25,7 +25,7 @@ export function DeviceList() {
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido';
         setError(errorMessage);
-        toast({ title: 'Erro ao carregar veículos', description: errorMessage, variant: 'destructive' });
+        toast('Erro ao carregar veículos', { description: errorMessage, variant: 'destructive' });
       } finally {
         setLoading(false);
       }

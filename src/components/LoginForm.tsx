@@ -31,10 +31,10 @@ export function LoginForm() {
   const onSubmit = async (data: LoginFormData) => {
     const result = await signIn(data.email, data.password);
     if (result.success) {
-      toast({ title: 'Login realizado com sucesso!' });
+      toast('Login realizado com sucesso!', { variant: 'success' });
       router.push('/');
     } else {
-      toast({ title: 'Erro no login', description: result.error, variant: 'destructive' });
+      toast('Erro no login', { description: result.error, variant: 'destructive' });
     }
   };
 
